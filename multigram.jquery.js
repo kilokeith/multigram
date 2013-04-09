@@ -26,8 +26,7 @@ multigram.error - (e, message, user, error)
 		  clientID: ''
 		, accessToken: ''
 		, autoStart: true
-		, numImagesPerUserPerLoad: 10
-		, totalImagePerLoad: null
+		, numImagesPerUserPerLoad: null
 		, instagramSearchURL: 'https://api.instagram.com/v1/users/{userID}/media/recent'
 		, instagramSearchUserURL: 'https://api.instagram.com/v1/users/search'
 	};
@@ -124,7 +123,7 @@ multigram.error - (e, message, user, error)
 				
 				var username = matches[1].toLowerCase() || null;
 				if(username){
-					var user = {token: datas[key]};
+					var user = {token: datas[key], max_id: null};
 					if(!isNaN(parseFloat(username)) && isFinite(username)){
 						user.id = username;
 					}else{
@@ -225,12 +224,16 @@ multigram.error - (e, message, user, error)
 						console.log('HERE', _this.hashtag_match, _this.hashtags);
 						filtered_instagrams = instagrams;
 					}else{
+						//filter set with hashtags
 						filtered_instagrams = _this.filterInstagrams(instagrams);
 					}
 					
+					//reduce set to max limit, if there is one
+					filtered_instagrams = _this.reduceInstagramSet(filtered_instagrams, user, _this.options.numImagesPerUserPerLoad);
+
 					//trigger event that filtering is done
 					_this.$elm.trigger('multigram.instagrams_filtered', filtered_instagrams);
-					
+
 					//
 					if(filtered_instagrams.length > 0){
 						_this.addImages(filtered_instagrams, next);
@@ -258,7 +261,14 @@ multigram.error - (e, message, user, error)
 			var qs = {
 				  client_id:  _this.options.clientID
 				, access_token: user.token
+				, count: 100
 			};
+
+			//all max_id to be passed
+			if(user.max_id){
+				qs.max_id = user.max_id;
+			}
+
 			//swap in userid
 			var searchURL = _this.options.instagramSearchURL.replace('{userID}', user.id) + "?callback=?";
 
@@ -301,12 +311,34 @@ multigram.error - (e, message, user, error)
 		},
 
 
+		reduceInstagramSet: function (instagrams, user, limit) {
+			var set = [];
+			//if we set a limit for num of instagrams per load, slice to it
+			if(limit && limit > 0){
+				set = instagrams.slice(0, limit);
+			}else{
+				set = instagrams;
+			}
+
+
+			//set max_id of last
+			user.max_id = set[set.length-1].id;
+
+			return set;
+		},
+
+
 		addImages: function (instagrams, callback) {
+			//add each image
 			var i=0, l = instagrams.length;
 			while(i < l){
 				this.$elm.trigger('multigram.add_image', instagrams[i]);
 				i++;
 			}
+
+			//set last id
+
+			//callback to do next in queue
 			callback();
 		},
 
