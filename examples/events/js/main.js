@@ -5,7 +5,7 @@ $(document).ready(function(){
 
 
 	//call plugin with options
-	$instagrams.multigram({
+	var m = $instagrams.multigram({
 		  clientID: "fc89951c3b18466eb528c4ac4584d707"
 	});
 	/*
@@ -20,6 +20,11 @@ $(document).ready(function(){
 
 
 	//implement reactions to plugin events
+	$instagrams.on('multigram.searches_complete', function(e){
+		$('#load-more-btn').removeClass('loading');
+	});
+
+
 	//see instagram objects at http://instagram.com/developer/endpoints/media/#get_media_search
 	$instagrams.on('multigram.add_image', function(e, instagram_object){
 		var $insta = $('<div/>', {
@@ -40,7 +45,9 @@ $(document).ready(function(){
 
 	//load older instagrams
 	$('#load-more-btn').on('click', function(){
-		$instagrams.multigram().loadMore();
+		$(this).addClass('loading');
+		//call a method in the plugin
+		$instagrams.data('plugin_multigram').loadMore();
 	});
 
 
@@ -52,8 +59,8 @@ $(document).ready(function(){
 	.on('multigram.init', function(e){
 		console.info('multigram.init');
 	})
-	.on('multigram.loaded_more', function(e, page){
-		console.info('multigram.loaded_more', page);
+	.on('multigram.loaded_more', function(e){
+		console.info('multigram.loaded_more');
 	})
 	.on('multigram.reset', function(e){
 		console.info('multigram.reset');

@@ -54,7 +54,7 @@ multigram.error - (e, message, user, error)
 
 		//call initializer
 		this.init();
-
+		
 		return this;
 	}
 
@@ -322,7 +322,9 @@ multigram.error - (e, message, user, error)
 
 
 			//set max_id of last
-			user.max_id = set[set.length-1].id;
+			if(set && set.length > 0)
+				user.max_id = set[set.length-1].id;
+			
 
 			return set;
 		},
@@ -383,9 +385,7 @@ multigram.error - (e, message, user, error)
 	$.fn[pluginName] = function (options) {
 		return this.each(function () {
 			if (!$.data(this, "plugin_" + pluginName)) {
-				return $.data(this, "plugin_" + pluginName, new MultiGram(this, options));
-			}else{
-				return $.data(this, "plugin_" + pluginName);
+				$.data(this, "plugin_" + pluginName, new MultiGram(this, options));
 			}
 		});
 	};
