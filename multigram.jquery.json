@@ -1,0 +1,35 @@
+{
+	"name": "multigram",
+	"title": "jQuery Multigram",
+	"description": "Combine multiple Instagram accounts into on feed, with hashtag filtering",
+	"keywords": [
+		"instagram"
+	],
+	"version": "0.0.1",
+	"author": {
+		"name": "Keith Hoffmann",
+		"url": "https://github.com/kilokeith"
+	},
+	"maintainers": [
+		{
+			"name": "Keith Hoffmann",
+			"email": "keith@kiloproductions.net",
+			"url": "http://builtbyeande.com"
+		}
+	],
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "https://github.com/jquery/jquery-color/blob/2.1.2/MIT-LICENSE.txt"
+		}
+	],
+	"bugs": "https://github.com/kilokeith/multigram/issues",
+	"homepage": "https://github.com/kilokeith/multigram",
+	"docs": "https://github.com/kilokeith/multigram",
+	"download": "https://github.com/kilokeith/multigram/",
+	"dependencies": {
+		"jquery": ">=1.5 <2",
+		"async": "*",
+		"underscore": "1.4.x"
+	}
+}

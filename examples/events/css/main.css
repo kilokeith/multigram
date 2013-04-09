@@ -1,0 +1,15 @@
+#instagrams {
+	margin: 10px;
+	width: 100%;
+}
+
+.instagram {
+	display: inline-block;
+	width: 150px;
+	height: 150px;
+	margin: 4px;
+	border: 1px solid black;
+	overflow: hidden;
+	background: no-repeat center center;
+	background-size: cover;
+}
