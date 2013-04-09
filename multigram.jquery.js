@@ -1,6 +1,5 @@
 //requires jQuery >= 1.5
 //requires aysc.js (https://raw.github.com/caolan/async/master/lib/async.js)
-//requires underscore.js (http://underscorejs.org/underscore-min.js)
 
 
 //Events to emit back to main element. event - (event, [args...])
@@ -324,7 +323,7 @@ multigram.error - (e, message, user, error)
 			//set max_id of last
 			if(set && set.length > 0)
 				user.max_id = set[set.length-1].id;
-			
+
 
 			return set;
 		},
